@@ -1,0 +1,52 @@
+{% load staticfiles %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JOBFinder - {{ employer.company_name }}</title>
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/employer.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <header class="blog-header py-3">
+        <div class="row flex-nowrap justify-content-center align-items-center">
+            <div class="col-4 text-center">
+                <a class="blog-header-logo text-dark" href="#">JOBFinder</a>
+            </div>
+        </div>
+    </header>
+    <div class="row py-3">
+        <div class="col-4 border-right border-dark">
+            <div class="profile-item text-center">
+                <img src="{% static 'images/base_profile.png' %}" alt="Profile Photo"/>
+            </div>
+        </div>
+        <div class="col-8">
+            <form method="post">
+                {% for field in form.visible_fields %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {% render_field field class='form-control' %}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% if field.errors %}
+                            {% for e in field.errors %}
+                                <div class="invalid-feedback" style="display: block">
+                                    {{ e }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                {% csrf_token %}
+                <input type="submit" class="btn btn-success" value="Save"/>
+                <a href="{{ object.get_absolute_url }}" class="btn btn-light">Back to Profile</a>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
