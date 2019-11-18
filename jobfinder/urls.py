@@ -17,8 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 
 from employer import urls as er_urls
+from employee import urls as ee_urls
+from user import urls as us_urls
+
+from general import views as gen_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('employers/', include(er_urls))
+    path('employers/', include(er_urls)),
+    path('employees/', include(ee_urls)),
+    path('user/', include(us_urls)),
+    path('', gen_views.HomePage.as_view(), name='homepage'),
 ]

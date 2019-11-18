@@ -1,0 +1,62 @@
+{% extends 'profile_page.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    {{ block.super }} - Employee
+{% endblock %}
+
+
+{% block left-side %}
+    <div class="profile-item text-center">
+        <img src="{% static 'images/base_profile.png' %}" alt="Profile Photo"/>
+    </div>
+    <div class="profile-item text-center">
+        {{ employee.full_name }}
+    </div>
+{% endblock %}
+
+
+{% block right-side %}
+    <div class="profile-item">
+        <blockquote class="blockquote">
+            <p class="mb-0 h4">{{ employee.get_wanted_position_display }}</p>
+            <footer class="blockquote-footer">{{ employee.work_experience }} <cite title="Source Title">years</cite></footer>
+        </blockquote>
+    </div>
+
+    <div class="profile-item">
+        <h2>About Me:</h2>
+        <p class="text-justify">
+            {% if employee.self_description %}
+                {{ employee.self_description}}
+            {% else %}
+                This person has not updated his description yet
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="profile-item">
+        <p class="h4">
+            {{ employee.get_english_level_display }}
+        </p>
+    </div>
+
+    <div class="profile-item">
+        <span>Contacts:</span>
+        <div class="row">
+            <div class="col">
+                {{ employee.contact_email }}
+            </div>
+            <div class="col">
+                +{{ employee.contact_phone }}
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-item">
+        <a href="{% url 'employee_edit_profile' employee.pk %}"
+           class="btn btn-dark">
+            Edit
+        </a>
+    </div>
+{% endblock %}

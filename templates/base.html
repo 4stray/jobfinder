@@ -1,0 +1,38 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}
+        JOBFinder
+    {% endblock %}</title>
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/employer.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <header class="blog-header py-3">
+        <div class="row flex-nowrap justify-content-between align-items-center">
+            <div class="col-4 text-center">
+                <a class="blog-header-logo text-dark" href="{% url 'homepage' %}">JOBFinder</a>
+            </div>
+            {% if user.is_authenticated %}
+                <div class="col-4 text-center">
+                    <a class='btn btn-outline-danger' href="{% url 'logout' %}">Sign Out</a>
+                </div>
+            {% else %}
+                <div class="col-4 text-center">
+                    <a class='btn btn-outline-dark' href="{% url 'login' %}">Sign In</a>
+                </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="row py-3">
+        {% block main %}
+            Base Template
+        {% endblock %}
+    </div>
+</div>
+</body>
+</html>

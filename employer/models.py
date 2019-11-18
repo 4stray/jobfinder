@@ -5,19 +5,19 @@ from django.core.validators import (
 )
 
 
-from .validators import phone_validator
+from utils.validators import phone_validator
 
 
 class Employer(models.Model):
-    name = models.CharField(max_length=45, blank=False, null=False)
-    second_name = models.CharField(max_length=45, blank=False, null=False)
-    company_name = models.CharField(max_length=140, blank=True, null=False)
+    name = models.CharField(max_length=255, blank=False)
+    second_name = models.CharField(max_length=255, blank=False)
+    company_name = models.CharField(max_length=255, blank=True)
     company_description = models.TextField()
-    site_link = models.CharField(max_length=255, blank=True, null=False,
+    site_link = models.CharField(max_length=255, blank=True,
                                  validators=[URLValidator()])
-    contact_phone = models.CharField(max_length=12, blank=True, null=False,
+    contact_phone = models.CharField(max_length=64, blank=True,
                                      validators=[phone_validator])
-    contact_email = models.EmailField(max_length=32, blank=True, null=False)
+    contact_email = models.EmailField(max_length=255, blank=True)
 
     def get_absolute_url(self):
         return reverse('employer_profile', args=[self.pk])

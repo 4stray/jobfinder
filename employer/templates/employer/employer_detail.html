@@ -1,59 +1,46 @@
+{% extends 'profile_page.html' %}
 {% load staticfiles %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>JOBFinder - {{ employer.company_name }}</title>
-    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/employer.css' %}" rel="stylesheet">
-</head>
-<body>
-<div class="container">
-    <header class="blog-header py-3">
-        <div class="row flex-nowrap justify-content-center align-items-center">
-            <div class="col-4 text-center">
-                <a class="blog-header-logo text-dark" href="#">JOBFinder</a>
+
+{% block title %}
+    {{ block.super }} - {{ employer.company_name }}
+{% endblock %}
+
+
+{% block left-side %}
+    <div class="profile-item text-center">
+        <img src="{% static 'images/base_profile.png' %}" alt="Profile Photo"/>
+    </div>
+    <div class="profile-item text-center">
+        {{ employer.full_name }}
+    </div>
+{% endblock %}
+
+
+{% block right-side %}
+    <div class="profile-item text-center">
+        <h3 class="blog-header-logo">{{ employer.company_name }}</h3>
+    </div>
+    <div class="profile-item">
+        {{ employer.company_description }}
+    </div>
+    <div class="profile-item">
+        Web-Site: <a href="{{ employer.site_link }}">{{ employer.site_link }}</a>
+    </div>
+    <div class="profile-item">
+        <span>Contacts:</span>
+        <div class="row">
+            <div class="col">
+                {{ employer.contact_email }}
             </div>
-        </div>
-    </header>
-    <div class="row py-3">
-        <div class="col-4 border-right border-dark">
-            <div class="profile-item text-center">
-                <img src="{% static 'images/base_profile.png' %}"  alt="Profile Photo"/>
-            </div>
-            <div class="profile-item text-center">
-                {{ employer.full_name }}
-            </div>
-        </div>
-        <div class="col-8">
-            <div class="profile-item text-center">
-                <h3 class="blog-header-logo">{{ employer.company_name }}</h3>
-            </div>
-            <div class="profile-item">
-                {{ employer.company_description }}
-            </div>
-            <div class="profile-item">
-                Web-Site: <a href="{{ employer.site_link }}">{{ employer.site_link }}</a>
-            </div>
-            <div class="profile-item">
-                <span>Contacts:</span>
-                <div class="row">
-                    <div class="col">
-                        {{ employer.contact_email }}
-                    </div>
-                    <div class="col">
-                        +{{ employer.contact_phone }}
-                    </div>
-                </div>
-            </div>
-            <div class="profile-item">
-                <a href="{% url 'employer_edit_profile' employer.pk %}"
-                   class="btn btn-dark">
-                    Edit
-                </a>
+            <div class="col">
+                +{{ employer.contact_phone }}
             </div>
         </div>
     </div>
-</div>
-</body>
-</html>
+    <div class="profile-item">
+        <a href="{% url 'employer_edit_profile' employer.pk %}"
+           class="btn btn-dark">
+            Edit
+        </a>
+    </div>
+{% endblock %}
