@@ -8,19 +8,17 @@ from employee.models import Employee
 
 from .managers import UserManager
 
-class User(AbstractBaseUser, PermissionsMixin):
 
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
 
     last_login = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
-
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
-
-    employer= models.OneToOneField(Employer, null=True,
+    employer = models.OneToOneField(Employer, null=True,
                                     blank=True, on_delete=models.SET_NULL)
     employee = models.OneToOneField(Employee, null=True,
                                     blank=True, on_delete=models.SET_NULL)

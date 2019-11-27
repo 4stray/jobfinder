@@ -37,10 +37,21 @@
             </div>
         </div>
     </div>
+    {% if employer.vacancies %}
+        {% for vacancy in employer.vacancies.all %}
+            <div class="profile-item">
+                {{ vacancy.title }}
+            </div>
+        {% endfor %}
+    {% endif %}
     <div class="profile-item">
         <a href="{% url 'employer_edit_profile' employer.pk %}"
            class="btn btn-dark">
             Edit
+        </a>
+        <a href="{% url 'vacancy_create' employer.pk %}"
+           class="btn btn-dark">
+            New Vacancy
         </a>
     </div>
 {% endblock %}
