@@ -19,7 +19,8 @@
             </div>
             <div class="col-lg-3 offset-3 my-4">
                 <form class="dashboard-list" method="get">
-                    <input type="text" name="empe_srch" placeholder="Search for Employees">
+                    <input type="text" name="empe_srch" class="m-1 form-control" placeholder="Search for Employees">
+                    <input type="submit" value="Filter" class="btn-sm btn-info form-control">
                 </form>
             </div>
         </div>
@@ -40,7 +41,8 @@
             </div>
             <div class="col-lg-3 offset-3 my-4">
                 <form class="dashboard-list" method="get">
-                    <input type="text" name="empr_srch" placeholder="Search for Employers">
+                    <input type="text" name="empr_srch" class="m-1 form-control" placeholder="Search for Employers">
+                    <input type="submit" value="Filter" class="btn-sm btn-info form-control">
                 </form>
             </div>
         </div>
@@ -52,7 +54,7 @@
                         <ul class="list-group list-group-flush">
                             {% for vacancy in vacancies %}
                                 <li class="list-group-item">
-                                    <a href="{{ vacancy.employer.get_absolute_url }}">{{ vacancy }}</a>
+                                    <a href="{{ vacancy.employer.get_absolute_url }}">{{ vacancy }} - {{ vacancy.position.name }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
@@ -61,7 +63,14 @@
             </div>
             <div class="col-lg-3 offset-3 my-4">
                 <form class="dashboard-list" method="get">
-                    <input type="text" name="vac_srch" placeholder="Search for Vacancies">
+                    <select name="vac_pos" class="m-1 form-control">
+                        <option value="*" selected="selected" >All</option>
+                        {% for pos in positions %}
+                            <option value="{{ pos.id }}">{{ pos.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="text" class="m-1 form-control" name="vac_srch" placeholder="Search for Vacancies">
+                    <input type="submit" value="Filter" class="btn-sm btn-info form-control">
                 </form>
             </div>
         </div>

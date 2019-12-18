@@ -3,7 +3,8 @@ body, html {
 }
 
 .dashboard-list{
-    border: #818182 inset 1px;
+    border: #818182 inset 0.002em;
+    border-radius: 0.3em;
     padding: 13px;
 }
 

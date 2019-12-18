@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView
 
-from employee.models import Employee
+from employee.models import Employee, Position
 from employer.models import Employer, Vacancy
 from utils.pagination import get_paginated
 
@@ -12,7 +12,7 @@ class HomePage(TemplateView):
         context_ = super().get_context_data(**kwargs)
 
         empe_filter, empr_filter = self.request.GET.get('empe_srch'), self.request.GET.get('empr_srch')
-        vac_filter = self.request.GET.get('vac_srch')
+        vac_filters = (self.request.GET.get('vac_srch'), self.request.GET.get('vac_pos'))
 
         employees = Employee.objects.order_by('user__created', 'name')
         if empe_filter:
@@ -23,11 +23,21 @@ class HomePage(TemplateView):
             employers = employers.filter(name__icontains=empr_filter)
 
         vacancies = Vacancy.objects.filter(is_active=True).order_by('employer__user__created', 'title')
-        if vac_filter:
-            vacancies = vacancies.filter(title__icontains=vac_filter)
+        if any(vac_filters):
+            if vac_filters[0]:
+                vacancies = vacancies.filter(title__icontains=vac_filters[0])
+            if vac_filters[1] and vac_filters[1] != '*':
+                vacancies = vacancies.filter(position_id__exact=vac_filters[1])
 
         context_['employees'] = get_paginated(self.request, employees, page_query='page_empe')
         context_['employers'] = get_paginated(self.request, employers, page_query='page_empr')
         context_['vacancies'] = get_paginated(self.request, vacancies, page_query='page_vac')
+
+        context_['positions'] = Position.objects.all()
+        
+        
+        context_.update({
+            'vac_filterss': vac_filters
+        })
 
         return context_
