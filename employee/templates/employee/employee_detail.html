@@ -19,7 +19,7 @@
 {% block right-side %}
     <div class="profile-item">
         <blockquote class="blockquote">
-            <p class="mb-0 h4">{{ employee.get_wanted_position_display }}</p>
+            <p class="mb-0 h4">{{ employee.wanted_position.name }}</p>
             <footer class="blockquote-footer">{{ employee.work_experience }} <cite title="Source Title">years</cite></footer>
         </blockquote>
     </div>
@@ -36,11 +36,12 @@
     </div>
 
     <div class="profile-item">
-        <p class="h4">
-            {{ employee.get_english_level_display }}
+        <p class="h5">
+            English Level - {{ employee.get_english_level_display }}
         </p>
     </div>
 
+    {% if employer.contact_email and employer.contact_phone %}
     <div class="profile-item">
         <span>Contacts:</span>
         <div class="row">
@@ -52,11 +53,14 @@
             </div>
         </div>
     </div>
+    {% endif %}
 
-    <div class="profile-item">
-        <a href="{% url 'employee_edit_profile' employee.pk %}"
-           class="btn btn-dark">
-            Edit
-        </a>
-    </div>
+    {% if user.employee.id == employee.pk %}
+        <div class="profile-item">
+            <a href="{% url 'employee_edit_profile' employee.pk %}"
+               class="btn btn-dark">
+                Edit
+            </a>
+        </div>
+    {% endif %}
 {% endblock %}

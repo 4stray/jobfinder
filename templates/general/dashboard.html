@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="mx-auto my-4"><h2>Welcome to our Site</h2></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Employers</h2>
+                <ul class="list-group list-group-flush">
+                    {% for employer in employers %}
+                        <li class="list-group-item">
+                            <a href="{{ employer.get_absolute_url }}">{{ employer.full_name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="pagination-slot py-3">
+                    <ul class="pagination justify-content-left">
+                        {% if employers.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page_empr=1" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page_empr={{ employers.previous_page_number }}">
+                                {{ employers.previous_page_number }}
+                            </a>
+                        </li>
+                        {% endif %}
+                         <li class="page-item active">
+                            <a class="page-link" href="#">
+                                {{ employers.number }}
+                            </a>
+                        </li>
+                        {% if employers.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page_empr={{ employers.next_page_number }}">
+                                {{ employers.next_page_number }}
+                            </a>
+                        </li>
+                         <li class="page-item">
+                            <a class="page-link" href="?page_empr={{ employers.paginator.num_pages }}" aria-label="Previous">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h2>Employees</h2>
+                <ul class="list-group list-group-flush">
+                    {% for employee in employees %}
+                        <li class="list-group-item">
+                            <a href="{{ employee.get_absolute_url }}">{{ employee.full_name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="pagination-slot py-3">
+                    <ul class="pagination justify-content-left">
+                        {% if employees.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page_empe=1" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page_empe={{ employees.previous_page_number }}">
+                                {{ employees.previous_page_number }}
+                            </a>
+                        </li>
+                        {% endif %}
+                         <li class="page-item active">
+                            <a class="page-link" href="#">
+                                {{ employees.number }}
+                            </a>
+                        </li>
+                        {% if employees.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page_empe={{ employees.next_page_number }}">
+                                {{ employees.next_page_number }}
+                            </a>
+                        </li>
+                         <li class="page-item">
+                            <a class="page-link" href="?page_empe={{ employees.paginator.num_pages }}" aria-label="Previous">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

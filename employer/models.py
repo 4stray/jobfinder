@@ -43,3 +43,7 @@ class Vacancy(models.Model):
                                  related_query_name='vacancy')
 
     is_active = models.BooleanField(default=True)
+
+
+    def __str__(self):
+        return f'{self.title} in {self.employer.company_name}'

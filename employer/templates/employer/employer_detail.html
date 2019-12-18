@@ -23,9 +23,14 @@
     <div class="profile-item">
         {{ employer.company_description }}
     </div>
-    <div class="profile-item">
-        Web-Site: <a href="{{ employer.site_link }}">{{ employer.site_link }}</a>
-    </div>
+
+    {% if employer.site_link %}
+        <div class="profile-item">
+            Web-Site: <a href="{{ employer.site_link }}">{{ employer.site_link }}</a>
+        </div>
+    {% endif %}
+
+    {% if employer.contact_email and employer.contact_phone %}
     <div class="profile-item">
         <span>Contacts:</span>
         <div class="row">
@@ -37,13 +42,9 @@
             </div>
         </div>
     </div>
-    {% if employer.vacancies %}
-        {% for vacancy in employer.vacancies.all %}
-            <div class="profile-item">
-                {{ vacancy.title }}
-            </div>
-        {% endfor %}
     {% endif %}
+
+    {% if user.employer.id == employer.pk %}
     <div class="profile-item">
         <a href="{% url 'employer_edit_profile' employer.pk %}"
            class="btn btn-dark">
@@ -54,4 +55,52 @@
             New Vacancy
         </a>
     </div>
+    {% endif %}
+{% endblock %}
+
+
+{% block second_level %}
+    {% if employer.vacancies %}
+        <h3>Vacancies:</h3>
+        <ul class="list-group">
+            {% for vacancy in employer.vacancies.all %}
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between">
+                        <div class="card-title">
+                            {{ vacancy.title }}
+                        </div>
+                        <div class="text-muted">
+                            {{ vacancy.position }}
+                        </div>
+                    </div>
+                    <p class="text text-justify">
+                        {{ vacancy.description }}
+                    </p>
+                    <div class="justify-content-start">
+                        {% if user.employer.id == employer.pk %}
+                            <a href="{% url 'vacancy_edit' employer.pk  vacancy.pk %}"
+                               class="btn btn-outline-secondary btn-sm">
+                                Edit Vacancy
+                            </a>
+                            <a href="{% url 'vacancy_delete' employer.pk vacancy.pk %}"
+                               class="btn btn-outline-secondary btn-sm">
+                                Delete Vacancy
+                            </a>
+                        {% elif user.employee %}
+                            {#                                {% url 'vacancy_subscribe' vacancy.pk %}#}
+                            <a href="#"
+                               class="btn btn-outline-secondary btn-sm">
+                                Request for Vacancy
+                            </a>
+                        {% else %}
+                            <a href="#"
+                               class="btn btn-outline-secondary btn-sm">
+                                Request for Vacancy
+                            </a>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}
