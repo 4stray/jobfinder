@@ -4,28 +4,95 @@
 
 
 {% block main %}
-    <div class="col-4 offset-4">
         <div class="container-fluid">
-        <form method="post">
-            {% for field in form.visible_fields %}
-            <div class="form-group">
-                {{ field.label_tag }}
-                {% render_field field class='form-control' %}
-                {% if field.help_text %}
-                    <small class="form-text text-muted">{{ field.help_text }}</small>
-                {% endif %}
-                {% if field.errors %}
-                    {% for e in field.errors %}
-                        <div class="invalid-feedback" style="display: block">
-                            {{ e }}
+            <form method="post" class="d-flex justify-content-between">
+                <div class="col-4">
+                    {% for field in form.visible_fields%}
+                        <div class="form-group">
+                            {{ field.label_tag }}
+                            {% render_field field class='form-control' %}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% if field.errors %}
+                                {% for e in field.errors %}
+                                    <div class="invalid-feedback" style="display: block">
+                                        {{ e }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     {% endfor %}
-                {% endif %}
-            </div>
-        {% endfor %}
-        {% csrf_token %}
-        <input type="submit" class="btn btn-success" value="Sign Up"/>
-        </form>
-    </div>
-    </div>
+                    {% csrf_token %}
+                </div>
+
+                <div class="col-5">
+                    <fieldset id="form-{{ employee_form.uid }}">
+                        {% for field in employee_form.visible_fields %}
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {% render_field field class='form-control' %}
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% if field.errors %}
+                                    {% for e in field.errors %}
+                                        <div class="invalid-feedback" style="display: block">
+                                            {{ e }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </fieldset>
+
+                    <fieldset id="form-{{ employer_form.uid }}">
+                        {% for field in employer_form.visible_fields %}
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {% render_field field class='form-control' %}
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                                {% if field.errors %}
+                                    {% for e in field.errors %}
+                                        <div class="invalid-feedback" style="display: block">
+                                            {{ e }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </fieldset>
+                    <input type="submit" class="btn btn-success" value="Sign Up"/>
+                </div>
+            </form>
+        </div>
+{% endblock %}
+
+
+{% block jscript %}
+    const forms = {
+    'eyer': $('#form-{{ employer_form.uid }}'),
+    'eyee': $('#form-{{ employee_form.uid }}'),
+    }
+
+    function switch_block(current_block){
+    $.each(Object.entries(forms), function(_, form){
+    if(current_block === form[0]){
+    form[1].removeClass('d-none')
+    form[1].removeAttr('disabled')
+    } else  {
+    form[1].addClass('d-none')
+    form[1].attr('disabled', 'disabled')
+    }
+    })
+    }
+
+    $('#id_account_type').on('change', function() {
+    block_type = $(this).val()
+    switch_block(block_type)
+    })
+
+    switch_block($('#id_account_type').val())
 {% endblock %}

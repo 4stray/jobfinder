@@ -1,0 +1,13 @@
+body, html {
+    height: 100%;
+}
+
+.dashboard-list{
+    border: #818182 inset 0.002em;
+    border-radius: 0.3em;
+    padding: 13px;
+}
+
+.dashboard-section{
+    margin-bottom: 20px;
+}

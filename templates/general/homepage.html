@@ -1,94 +1,77 @@
 {% extends 'base.html' %}
 
 {% block main %}
-    <div class="mx-auto my-4"><h2>Welcome to our Site</h2></div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6">
-                <h2>Employers</h2>
-                <ul class="list-group list-group-flush">
-                    {% for employer in employers %}
-                        <li class="list-group-item">
-                            <a href="{{ employer.get_absolute_url }}">{{ employer.full_name }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-                <div class="pagination-slot py-3">
-                    <ul class="pagination justify-content-left">
-                        {% if employers.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page_empr=1" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page_empr={{ employers.previous_page_number }}">
-                                {{ employers.previous_page_number }}
-                            </a>
-                        </li>
+    <div class="col-lg-12 h-100 align-items-between">
+        <div class="row border-bottom border-info mb-5">
+            <div class="col-lg-6 dashboard-section">
+                    <div>
+                        <h4>Employees</h4>
+                        {% if employees %}
+                        <ul class="list-group list-group-flush">
+                            {% for employee in employees %}
+                                <li class="list-group-item">
+                                    <a href="{{ employee.get_absolute_url }}">{{ employee.full_name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
                         {% endif %}
-                         <li class="page-item active">
-                            <a class="page-link" href="#">
-                                {{ employers.number }}
-                            </a>
-                        </li>
-                        {% if employers.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page_empr={{ employers.next_page_number }}">
-                                {{ employers.next_page_number }}
-                            </a>
-                        </li>
-                         <li class="page-item">
-                            <a class="page-link" href="?page_empr={{ employers.paginator.num_pages }}" aria-label="Previous">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
+                    </div>
             </div>
-            <div class="col-md-6">
-                <h2>Employees</h2>
-                <ul class="list-group list-group-flush">
-                    {% for employee in employees %}
-                        <li class="list-group-item">
-                            <a href="{{ employee.get_absolute_url }}">{{ employee.full_name }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-                <div class="pagination-slot py-3">
-                    <ul class="pagination justify-content-left">
-                        {% if employees.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page_empe=1" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page_empe={{ employees.previous_page_number }}">
-                                {{ employees.previous_page_number }}
-                            </a>
-                        </li>
+            <div class="col-lg-3 offset-3 my-4">
+                <form class="dashboard-list" method="get">
+                    <input type="text" name="empe_srch" class="m-1 form-control" placeholder="Search for Employees">
+                    <input type="submit" value="Filter" class="btn-sm btn-info form-control">
+                </form>
+            </div>
+        </div>
+        <div class="row border-bottom border-info mb-5">
+            <div class="col-lg-6">
+                    <div>
+                        <h4>Employers</h4>
+                        {% if employers %}
+                        <ul class="list-group list-group-flush">
+                            {% for employer in employers %}
+                                <li class="list-group-item">
+                                    <a href="{{ employer.get_absolute_url }}">{{ employer.full_name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
                         {% endif %}
-                         <li class="page-item active">
-                            <a class="page-link" href="#">
-                                {{ employees.number }}
-                            </a>
-                        </li>
-                        {% if employees.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page_empe={{ employees.next_page_number }}">
-                                {{ employees.next_page_number }}
-                            </a>
-                        </li>
-                         <li class="page-item">
-                            <a class="page-link" href="?page_empe={{ employees.paginator.num_pages }}" aria-label="Previous">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
+                    </div>
+            </div>
+            <div class="col-lg-3 offset-3 my-4">
+                <form class="dashboard-list" method="get">
+                    <input type="text" name="empr_srch" class="m-1 form-control" placeholder="Search for Employers">
+                    <input type="submit" value="Filter" class="btn-sm btn-info form-control">
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                    <div>
+                        <h4>Vacancies</h4>
+                        {% if vacancies %}
+                        <ul class="list-group list-group-flush">
+                            {% for vacancy in vacancies %}
+                                <li class="list-group-item">
+                                    <a href="{{ vacancy.employer.get_absolute_url }}">{{ vacancy }} - {{ vacancy.position.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
                         {% endif %}
-                    </ul>
-                </div>
+                    </div>
+            </div>
+            <div class="col-lg-3 offset-3 my-4">
+                <form class="dashboard-list" method="get">
+                    <select name="vac_pos" class="m-1 form-control">
+                        <option value="*" selected="selected" >All</option>
+                        {% for pos in positions %}
+                            <option value="{{ pos.id }}">{{ pos.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="text" class="m-1 form-control" name="vac_srch" placeholder="Search for Vacancies">
+                    <input type="submit" value="Filter" class="btn-sm btn-info form-control">
+                </form>
             </div>
         </div>
     </div>

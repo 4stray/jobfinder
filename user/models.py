@@ -49,3 +49,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):
         return self.is_superuser
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                check=~models.Q(emloyee_id=None) | ~models.Q(employer_id=None),
+                name='OnlyOneUserType'
+            )
+        ]

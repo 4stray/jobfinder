@@ -2,7 +2,7 @@ from django.contrib.auth.views import LogoutView, LoginView
 from django.views.generic import CreateView
 from django.urls import reverse
 
-from .forms import RegistrationForm
+from . import forms
 
 
 class UserLoginView(LoginView):
@@ -14,8 +14,16 @@ class UserLogoutView(LogoutView):
 
 
 class UserRegistrationView(CreateView):
-    form_class = RegistrationForm
+    form_class = forms.RegistrationForm
     template_name = 'registration/registration.html'
 
     def get_success_url(self):
         return reverse('homepage')
+
+    def get_context_data(self, **kwargs):
+        context_ = super().get_context_data(**kwargs)
+
+        context_['employer_form'] = forms.EmployerForm()
+        context_['employee_form'] = forms.EmployeeForm()
+
+        return context_
